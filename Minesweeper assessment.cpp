@@ -5,6 +5,8 @@
 
 #include <fstream>//used for acessing text files in the meu options
 #include <string>//allows use of getline
+#include <stdlib.h>//used in the random number generator
+#include <time.h>//used as a seed for the random number generator
 
 using namespace std;
 
@@ -92,6 +94,50 @@ public:
 				gridPoints[x][y].initialiseSquare(false);
 			}
 		}
+
+		int bombsPlaced = 0;
+		srand(time(NULL)); //initialize the random seed
+
+		while (bombsPlaced < numberOfBombs) {
+			int randXIndex = rand() % boardWidth; //generates a random number between 0 and boardwidth-1
+			int randYIndex = rand() % boardHeight; //generates a random number between 0 and boardheight-1
+			if (gridPoints[randXIndex][randYIndex].isBomb == false) {
+				gridPoints[randXIndex][randYIndex].initialiseSquare(true);
+				bombsPlaced += 1;
+			}
+		}
+
+		for (int x = 0; x < boardWidth; x++) {
+			for (int y = 0; y < boardHeight; y++) {
+				int sumOfSurroundingBombs = 0;
+
+				if (gridPoints[x][y].isBomb == true) {
+					break;//check these breaks if its breaking. hehe
+				}
+				else {
+					for (int n = x - 1; n <= x + 1; n++) {
+
+						if (n < 0 || n > boardWidth - 1) {
+							break;
+						}
+						else {
+							for (int z = y - 1; z <= y + 1; z++) {
+								if (z < 0 || z > boardHeight - 1) {
+									break;
+								}
+								else {
+									if (gridPoints[n][z].isBomb == true) {
+										sumOfSurroundingBombs += 1;
+									}
+								}
+							}
+						}
+					}
+					gridPoints[x][y].trueValue = sumOfSurroundingBombs;
+				}
+			}
+		}
+
 	}
 };
 
