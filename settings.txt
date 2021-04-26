@@ -1,0 +1,3 @@
+s
+Settings
+configure minesweeper to how you like it!
