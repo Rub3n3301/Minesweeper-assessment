@@ -94,6 +94,7 @@ public:
 				gridPoints[x][y].initialiseSquare(false);
 			}
 		}
+		// set all board peices to be empty
 
 		int bombsPlaced = 0;
 		srand(time(NULL)); //initialize the random seed
@@ -106,24 +107,25 @@ public:
 				bombsPlaced += 1;
 			}
 		}
+		//add the bombs
 
 		for (int x = 0; x < boardWidth; x++) {
 			for (int y = 0; y < boardHeight; y++) {
-				int sumOfSurroundingBombs = 0;
+				int sumOfSurroundingBombs = 0;//for each peice on the board, count the number of surrounding bombs
 
 				if (gridPoints[x][y].isBomb == true) {
-					break;//check these breaks if its breaking. hehe
+					
 				}
 				else {
 					for (int n = x - 1; n <= x + 1; n++) {
 
 						if (n < 0 || n > boardWidth - 1) {
-							break;
+							
 						}
 						else {
 							for (int z = y - 1; z <= y + 1; z++) {
 								if (z < 0 || z > boardHeight - 1) {
-									break;
+									
 								}
 								else {
 									if (gridPoints[n][z].isBomb == true) {
@@ -133,17 +135,46 @@ public:
 							}
 						}
 					}
-					gridPoints[x][y].trueValue = sumOfSurroundingBombs;
+					gridPoints[x][y].trueValue = sumOfSurroundingBombs;// maybe problems here?
 				}
+
 			}
 		}
 
+
 	}
+	string printGrid() {
+		string boardImage = "";
+
+		boardImage += "   ";//making space for the side header
+
+		for (int x = 0; x < boardWidth; x++) {//print the top header
+			boardImage += "[";
+			boardImage += ((char)(x + 25) );
+			boardImage += "]";
+
+		}
+		boardImage += "\n";//next line
+
+		for (int r = 0; r < boardHeight; r++) {//does each row of the board
+			boardImage += "[";
+			boardImage += r;
+			boardImage += "]";//side header
+
+			for (int c = 0; c < boardWidth; c++) {
+				boardImage += "[" + gridPoints[c][r].displayValue + "]";
+			}
+			boardImage += "\n";
+		}
+		return boardImage;
+	}//or here?
 };
 
-
 void playGame() {
-	
+	grid theBoard = grid();
+	theBoard.initialiseGrid(10);
+	string display = theBoard.printGrid();
+	cout << display;
 }
 
 void menu() {
