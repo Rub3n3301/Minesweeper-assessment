@@ -137,10 +137,8 @@ public:
 					}
 					gridPoints[x][y].trueValue = sumOfSurroundingBombs;// maybe problems here?
 				}
-
 			}
 		}
-
 
 	}
 	string printGrid() {
