@@ -4,7 +4,7 @@
 #include <conio.h> 
 
 #include <fstream>//used for acessing text files in the meu options
-#include <string>//allows use of getline
+#include <string>//allows use of getline and to_string conversion
 #include <stdlib.h>//used in the random number generator
 #include <time.h>//used as a seed for the random number generator
 
@@ -61,7 +61,7 @@ public:
 		isBomb = false;
 		isRevealed = false;
 		trueValue = "";
-		displayValue = "";
+		displayValue = " ";
 	}
 
 	void initialiseSquare(bool bomb) {
@@ -88,6 +88,7 @@ public:
 			}
 		}
 	}
+
 	void initialiseGrid(int numberOfBombs) {
 		for (int x = 0; x < boardWidth; x++) {
 			for (int y = 0; y < boardHeight; y++) {
@@ -135,12 +136,13 @@ public:
 							}
 						}
 					}
-					gridPoints[x][y].trueValue = sumOfSurroundingBombs;// maybe problems here?
+					gridPoints[x][y].trueValue = '0' + sumOfSurroundingBombs;
 				}
 			}
 		}
 
 	}
+
 	string printGrid() {
 		string boardImage = "";
 
@@ -148,7 +150,7 @@ public:
 
 		for (int x = 0; x < boardWidth; x++) {//print the top header
 			boardImage += "[";
-			boardImage += ((char)(x + 25) );
+			boardImage += ((char)(x + 65) );
 			boardImage += "]";
 
 		}
@@ -156,7 +158,7 @@ public:
 
 		for (int r = 0; r < boardHeight; r++) {//does each row of the board
 			boardImage += "[";
-			boardImage += r;
+			boardImage += to_string(r);
 			boardImage += "]";//side header
 
 			for (int c = 0; c < boardWidth; c++) {
@@ -165,13 +167,41 @@ public:
 			boardImage += "\n";
 		}
 		return boardImage;
-	}//or here?
+	}
+
+	string printTrueGrid() {
+		string boardImage = "";
+
+		boardImage += "   ";//making space for the side header
+
+		for (int x = 0; x < boardWidth; x++) {//print the top header
+			boardImage += "[";
+			boardImage += ((char)(x + 65));
+			boardImage += "]";
+
+		}
+		boardImage += "\n";//next line
+
+		for (int r = 0; r < boardHeight; r++) {//does each row of the board
+			boardImage += "[";
+			boardImage += to_string(r);
+			boardImage += "]";//side header
+
+			for (int c = 0; c < boardWidth; c++) {
+				boardImage += "[" + gridPoints[c][r].trueValue + "]";
+			}
+			boardImage += "\n";
+		}
+		return boardImage;
+	}
 };
 
 void playGame() {
 	grid theBoard = grid();
-	theBoard.initialiseGrid(10);
 	string display = theBoard.printGrid();
+	cout << display << "\n";
+	theBoard.initialiseGrid(10);
+	display = theBoard.printGrid();
 	cout << display;
 }
 
