@@ -75,6 +75,22 @@ public:
 		}
 		displayValue = 'X';
 	}
+
+	bool checkSquare() {
+		isRevealed = true;
+		displayValue = trueValue;
+
+		if (isBomb == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	void flagSquare() {
+		displayValue = "F";
+	}
 };
 
 class grid {
@@ -193,6 +209,47 @@ public:
 			boardImage += "\n";
 		}
 		return boardImage;
+	}
+
+	bool modifyGrid(string input) {
+		bool gameOver = false;
+
+		char command = input[0];
+		char xPositionInput = input[1];
+		char yPositionInput = input[2];
+
+		int xPos = ((int)xPositionInput) - 65;
+		int yPos;
+		if (isdigit(yPositionInput)) {
+			yPos = yPositionInput;
+		}
+		else {
+			cout << "you need to enter a number for the y position\n";
+			return 0;
+		}
+
+		if (!(0 < xPos < boardWidth)) {
+			cout << "you need to enter a coordinate within the grid for the x axis\n";
+			return 0;
+		}
+		if (!(0 < yPos < boardHeight)) {
+			cout << "you need to enter a coordinate within the grid for the y axis\n";
+			return 0;
+		}
+
+		if (command == '?') {
+			gameOver = gridPoints[xPos][yPos].checkSquare();
+		}
+		else if (command == '!') {
+			gridPoints[xPos][yPos].flagSquare();
+		}
+
+		if (gameOver) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 };
 
