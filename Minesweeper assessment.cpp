@@ -77,9 +77,14 @@ public:
 	}
 
 	bool checkSquare() {
+		
+		if (displayValue == "F") {
+			cout << "this square is flagged. if you want to check it you must flag it again to remove the flag\n";
+			return false;
+		}
+
 		isRevealed = true;
 		displayValue = trueValue;
-
 		if (isBomb == true) {
 			return true;
 		}
@@ -89,7 +94,17 @@ public:
 	}
 
 	void flagSquare() {
-		displayValue = "F";
+		if (!isRevealed) {
+			if (displayValue == "F") {
+				displayValue = " ";
+			}
+			else {
+				displayValue = "F";
+			}
+		}
+		else {
+			cout << "this square has already been revealed. Too late to flag it!\n";
+		}
 	}
 };
 
@@ -221,7 +236,7 @@ public:
 		int xPos = ((int)xPositionInput) - 65;
 		int yPos;
 		if (isdigit(yPositionInput)) {
-			yPos = yPositionInput;
+			yPos = yPositionInput - '0';
 		}
 		else {
 			cout << "you need to enter a number for the y position\n";
@@ -254,12 +269,30 @@ public:
 };
 
 void playGame() {
+
+	bool gameOver = false;
 	grid theBoard = grid();
+
 	string display = theBoard.printGrid();
 	cout << display << "\n";
+
 	theBoard.initialiseGrid(10);
+
 	display = theBoard.printGrid();
-	cout << display;
+	cout << display << "\n";
+
+	string move;
+	while (gameOver == false) {
+		cout << "make your move!";
+		cin >> move;
+		gameOver = theBoard.modifyGrid(move);
+
+		display = theBoard.printGrid();
+		cout << display << "\n";
+
+		display = theBoard.printTrueGrid();
+		cout << display << "\n";
+	}
 }
 
 void menu() {
@@ -272,6 +305,10 @@ void menu() {
 	switch (choice) {
 	case 'p':
 		playGame();
+
+	default:
+		cout << "you need to enter a valid tag!\n";
+		menu();
 	}
 }
 
