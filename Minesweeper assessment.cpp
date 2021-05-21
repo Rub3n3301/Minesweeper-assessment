@@ -8,6 +8,7 @@
 #include <stdlib.h>//used in the random number generator
 #include <time.h>//used as a seed for the random number generator
 
+
 using namespace std;
 
 const int boardWidth = 10;
@@ -175,25 +176,27 @@ public:
 	}
 
 	string printGrid() {
+
 		string boardImage = "";
 
-		boardImage += "   ";//making space for the side header
+		boardImage += "    ";//making space for the side header
 
 		for (int x = 0; x < boardWidth; x++) {//print the top header
-			boardImage += "[";
+			boardImage += "[ ";
 			boardImage += ((char)(x + 65) );
-			boardImage += "]";
+			boardImage += " ]";
 
 		}
+		boardImage += "\n";//next line
 		boardImage += "\n";//next line
 
 		for (int r = 0; r < boardHeight; r++) {//does each row of the board
 			boardImage += "[";
 			boardImage += to_string(r);
-			boardImage += "]";//side header
+			boardImage += "] ";//side header
 
 			for (int c = 0; c < boardWidth; c++) {
-				boardImage += "[" + gridPoints[c][r].displayValue + "]";
+				boardImage += "[ " + gridPoints[c][r].displayValue + " ]";
 			}
 			boardImage += "\n";
 		}
@@ -203,23 +206,24 @@ public:
 	string printTrueGrid() {
 		string boardImage = "";
 
-		boardImage += "   ";//making space for the side header
+		boardImage += "    ";//making space for the side header
 
 		for (int x = 0; x < boardWidth; x++) {//print the top header
-			boardImage += "[";
+			boardImage += "[ ";
 			boardImage += ((char)(x + 65));
-			boardImage += "]";
+			boardImage += " ]";
 
 		}
+		boardImage += "\n";//next line
 		boardImage += "\n";//next line
 
 		for (int r = 0; r < boardHeight; r++) {//does each row of the board
 			boardImage += "[";
 			boardImage += to_string(r);
-			boardImage += "]";//side header
+			boardImage += "] ";//side header
 
 			for (int c = 0; c < boardWidth; c++) {
-				boardImage += "[" + gridPoints[c][r].trueValue + "]";
+				boardImage += "[ " + gridPoints[c][r].trueValue + " ]";
 			}
 			boardImage += "\n";
 		}
