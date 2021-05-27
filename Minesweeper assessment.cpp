@@ -11,8 +11,9 @@
 
 using namespace std;
 
-const int boardWidth = 10;
-const int boardHeight = 10;
+const int boardWidth = 3;
+const int boardHeight = 3;
+bool cheatsActivated = true;
 
 class menuOption {
 public:
@@ -278,24 +279,44 @@ void playGame() {
 	grid theBoard = grid();
 
 	string display = theBoard.printGrid();
-	cout << display << "\n";
+	//cout << display << "\n";
 
-	theBoard.initialiseGrid(10);
+	theBoard.initialiseGrid(3);
 
 	display = theBoard.printGrid();
 	cout << display << "\n";
 
 	string move;
+	int turnCount = 0;
 	while (gameOver == false) {
-		cout << "make your move!";
+		turnCount += 1;
+		
+		cout << "make your move!\n";
+		cout << "turn count = " << turnCount << "\n";
 		cin >> move;
 		gameOver = theBoard.modifyGrid(move);
 
+		system("CLS");//ooo system is bad
+
+		cout << "this is the updated grid\n";
 		display = theBoard.printGrid();
 		cout << display << "\n";
 
+		if (cheatsActivated) {
+			cout << "this is the cheater grid -- Cheats are on!\n";
+			display = theBoard.printTrueGrid();
+			cout << display << "\n";
+		}
+	}
+	if (gameOver == true) {
+		system("CLS");//ooo system is bad
+		cout << "BOOM!\n";
 		display = theBoard.printTrueGrid();
 		cout << display << "\n";
+		cout << "you have lost the game :((\n";
+		cout << "--------------------------\n";
+		cout << "press enter and you will returned to the main menu\n";
+		_getch();
 	}
 }
 
