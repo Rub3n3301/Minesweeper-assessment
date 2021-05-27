@@ -84,6 +84,10 @@ public:
 			cout << "this square is flagged. if you want to check it you must flag it again to remove the flag\n";
 			return false;
 		}
+		if (isRevealed == true) {
+			cout << "this square already revealed\n";
+			return false;
+		}
 
 		isRevealed = true;
 		displayValue = trueValue;
@@ -294,9 +298,9 @@ void playGame() {
 		cout << "make your move!\n";
 		cout << "turn count = " << turnCount << "\n";
 		cin >> move;
-		gameOver = theBoard.modifyGrid(move);
-
 		system("CLS");//ooo system is bad
+
+		gameOver = theBoard.modifyGrid(move);
 
 		cout << "this is the updated grid\n";
 		display = theBoard.printGrid();
@@ -327,14 +331,36 @@ void menu() {
 	}
 	char choice;
 	cin >> choice;
+
+	string cheating = " ";
 	switch (choice) {
 	case 'p':
 		playGame();
+		break;
+	case 'c':
+
+	case 's':
+		cout << "do you wants cheats on?\n";
+		
+		while (cheating != "y" && cheating != "n") {
+			cout << "y for yes. n for no\n";
+			cin >> cheating;
+		}
+		if (cheating == "y") {
+			cheatsActivated = true;
+			cout << "cheats activated!\n";
+		}
+		else if (cheating == "n") {
+			cheatsActivated = false;
+			cout << "cheats removed!\n";
+		}
 
 	default:
 		cout << "you need to enter a valid tag!\n";
-		menu();
+		
 	}
+	system("CLS");
+	menu();
 }
 
 int main(){
