@@ -112,6 +112,28 @@ public:
 			cout << "this square has already been revealed. Too late to flag it!\n";
 		}
 	}
+
+	bool stateSquare() {
+		if (isBomb == true) {
+			if (displayValue == "F") {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			if (displayValue == "F") {
+				return false;
+			}
+			else if (isRevealed == true) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
 };
 
 class grid {
@@ -275,11 +297,25 @@ public:
 			return false;
 		}
 	}
+
+	bool gameWonGrid() {
+		for (int x = 0; x < boardWidth; x++) {
+			for (int y = 0; y < boardHeight; y++) {
+				
+				if (gridPoints[x][y].stateSquare() == false) {
+					return false;
+				}
+			
+			}
+		}
+		return true;
+	}
 };
 
 void playGame() {
 
 	bool gameOver = false;
+	bool gameWon = false;
 	grid theBoard = grid();
 
 	string display = theBoard.printGrid();
@@ -292,7 +328,7 @@ void playGame() {
 
 	string move;
 	int turnCount = 0;
-	while (gameOver == false) {
+	while (gameOver == false && gameWon == false) {
 		turnCount += 1;
 		
 		cout << "make your move!\n";
@@ -311,23 +347,39 @@ void playGame() {
 			display = theBoard.printTrueGrid();
 			cout << display << "\n";
 		}
+
+		gameWon = theBoard.gameWonGrid();
+
 	}
+
+	if (gameWon == true) {
+		system("CLS");//ooo system is bad
+		cout << "WELL DONE!\n";
+		display = theBoard.printTrueGrid();
+		cout << display << "\n";
+		cout << "you have won the game :))\n";
+		cout << "you won in " << turnCount << " moves\n";
+	}
+
 	if (gameOver == true) {
 		system("CLS");//ooo system is bad
 		cout << "BOOM!\n";
 		display = theBoard.printTrueGrid();
 		cout << display << "\n";
 		cout << "you have lost the game :((\n";
-		cout << "--------------------------\n";
-		cout << "press enter and you will returned to the main menu\n";
-		_getch();
+		cout << "you survived " << turnCount << " moves\n";
 	}
+
+	cout << "--------------------------\n";
+	cout << "press enter and you will returned to the main menu\n";
+	_getch();
 }
 
 void menu() {
 	menuOption options[] = { menuOption("MenuOptions//playGame.txt"), menuOption("MenuOptions//settings.txt"), menuOption("MenuOptions//credits.txt") };
 	for (int x = 0; x < *(&options + 1) - options; x++) {
 		options[x].displayOption();
+		cout << "============================================================================\n";
 	}
 	char choice;
 	cin >> choice;
@@ -338,7 +390,11 @@ void menu() {
 		playGame();
 		break;
 	case 'c':
-
+		cout << "this game was made by ruben sailer\n";
+		cout << "created in 2021\n";
+		cout << "he hopes you enjoy it!\n";
+		_getch();
+		break;
 	case 's':
 		cout << "do you wants cheats on?\n";
 		
@@ -354,10 +410,12 @@ void menu() {
 			cheatsActivated = false;
 			cout << "cheats removed!\n";
 		}
+		break;
 
 	default:
 		cout << "you need to enter a valid tag!\n";
-		
+		_getch();
+		break;
 	}
 	system("CLS");
 	menu();
