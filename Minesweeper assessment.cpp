@@ -260,8 +260,13 @@ public:
 	bool modifyGrid(string input) {
 		bool gameOver = false;
 
+		if (input.length() != 3) {
+			cout << "your input must be 3 characters long\n";
+			return 0;
+		}
+
 		char command = input[0];
-		char xPositionInput = input[1];
+		char xPositionInput = toupper(input[1]);
 		char yPositionInput = input[2];
 
 		int xPos = ((int)xPositionInput) - 65;
@@ -274,11 +279,11 @@ public:
 			return 0;
 		}
 
-		if (!(0 < xPos < boardWidth)) {
+		if (!(xPos < boardWidth)) {
 			cout << "you need to enter a coordinate within the grid for the x axis\n";
 			return 0;
 		}
-		if (!(0 < yPos < boardHeight)) {
+		if (!(yPos < boardHeight)) {
 			cout << "you need to enter a coordinate within the grid for the y axis\n";
 			return 0;
 		}
@@ -385,7 +390,7 @@ void menu() {
 	cin >> choice;
 
 	string cheating = " ";
-	switch (choice) {
+	switch (tolower(choice)) {
 	case 'p':
 		playGame();
 		break;
