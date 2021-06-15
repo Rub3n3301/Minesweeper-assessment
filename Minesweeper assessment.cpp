@@ -3,7 +3,7 @@
 #include <iostream> 
 #include <conio.h> 
 
-#include <fstream>//used for acessing text files in the meu options
+#include <fstream>//used for acessing text files in the menu options
 #include <string>//allows use of getline and to_string conversion
 #include <stdlib.h>//used in the random number generator
 #include <time.h>//used as a seed for the random number generator
@@ -11,8 +11,8 @@
 
 using namespace std;
 
-const int boardWidth = 3;
-const int boardHeight = 3;
+const int boardWidth = 8;
+const int boardHeight = 8;
 bool cheatsActivated = true;
 
 class menuOption {
@@ -376,7 +376,7 @@ void playGame() {
 }
 
 void menu() {
-	menuOption options[] = { menuOption("MenuOptions//playGame.txt"), menuOption("MenuOptions//settings.txt"), menuOption("MenuOptions//credits.txt") };
+	menuOption options[] = { menuOption("MenuOptions//playGame.txt"), menuOption("MenuOptions//settings.txt"), menuOption("MenuOptions//credits.txt"), menuOption("MenuOptions//Instructions.txt"), menuOption("MenuOptions//Exit.txt") };
 	for (int x = 0; x < *(&options + 1) - options; x++) {
 		options[x].displayOption();
 		cout << "============================================================================\n";
@@ -411,7 +411,17 @@ void menu() {
 			cout << "cheats removed!\n";
 		}
 		break;
-
+	case 'i':
+		cout << "the aim of the game is to uncover all empty squares and flag all mines\n";
+		cout << "hit the ? to uncover a bomb, or ! to flag it\n";
+		cout << "an uncovered square cannot be flagged and a flagged square cannot be uncovered\n";
+		cout << "to unflag a square, you need to flag it again\n";
+		cout << "your score is the number of turns it takes you to win or lose. Good Luck!\n";
+		_getch();
+		break;
+	case 'e':
+		exit(0);
+		break;
 	default:
 		cout << "you need to enter a valid tag!\n";
 		_getch();
